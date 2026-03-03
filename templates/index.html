@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Phishing Detection System</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Orbitron', sans-serif;
+}
+
+body{
+    height:100vh;
+    background:linear-gradient(135deg,#0f172a,#1e293b,#0f172a);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    overflow:hidden;
+}
+
+/* Background Glow */
+body::before{
+    content:"";
+    position:absolute;
+    width:600px;
+    height:600px;
+    background:radial-gradient(circle,#3b82f6,transparent 70%);
+    top:-200px;
+    left:-200px;
+    filter:blur(120px);
+    opacity:0.4;
+}
+
+.container{
+    width:800px;
+    padding:40px;
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(15px);
+    border-radius:20px;
+    box-shadow:0 0 40px rgba(0,0,0,0.6);
+    text-align:center;
+}
+
+h1{
+    font-size:28px;
+    margin-bottom:20px;
+    background:linear-gradient(to right,#38bdf8,#a855f7);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+input{
+    width:80%;
+    padding:15px;
+    border-radius:12px;
+    border:none;
+    outline:none;
+    background:#0f172a;
+    color:white;
+    font-size:16px;
+    box-shadow:inset 0 0 10px rgba(0,0,0,0.8);
+}
+
+button{
+    margin-top:20px;
+    padding:12px 30px;
+    border:none;
+    border-radius:30px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    background:linear-gradient(to right,#06b6d4,#8b5cf6);
+    color:white;
+    transition:0.3s ease;
+}
+
+button:hover{
+    transform:scale(1.1);
+    box-shadow:0 0 20px #06b6d4;
+}
+
+/* Result Card */
+.result-card{
+    margin-top:30px;
+    padding:25px;
+    border-radius:15px;
+    background:rgba(0,0,0,0.4);
+    box-shadow:0 0 25px rgba(0,0,0,0.7);
+}
+
+/* Risk Meter */
+.meter{
+    width:100%;
+    height:20px;
+    border-radius:20px;
+    background:#1e293b;
+    margin-top:15px;
+    overflow:hidden;
+}
+
+.meter-fill{
+    height:100%;
+    background:linear-gradient(to right,#22c55e,#ef4444);
+    transition:width 1s ease;
+}
+
+/* Status Colors */
+.safe{color:#22c55e;}
+.danger{color:#ef4444;}
+
+.info{
+    margin-top:10px;
+    font-size:14px;
+    opacity:0.8;
+}
+
+.footer{
+    margin-top:25px;
+    font-size:12px;
+    opacity:0.5;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>🔐 AI Phishing Detection System</h1>
+
+<form method="POST">
+<input type="text" name="url" placeholder="Enter URL to scan..." required>
+<br>
+<button type="submit">Scan Now</button>
+</form>
+
+{% if result %}
+<div class="result-card">
+    <h2 class="{{ 'danger' if result=='PHISHING' else 'safe' }}">
+        {{ result }}
+    </h2>
+    
+    <p>Confidence: {{confidence}}%</p>
+    <p>Threat Category: {{category}}</p>
+    <p>Domain Age: {{age}} days</p>
+
+    <!-- Risk Meter -->
+    <div class="meter">
+        <div class="meter-fill" style="width: {{confidence}}%;"></div>
+    </div>
+
+    <div class="info">
+        {% if result == "PHISHING" %}
+        🚨 Do NOT enter credentials. Enable 2FA & report immediately.
+        {% else %}
+        ✔ Website appears safe. Always double-check domain spelling.
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+
+<div class="footer">
+Cybersecurity Project | Built by Manav 🚀
+</div>
+
+</div>
+
+</body>
+</html>
